@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>WebSocket Client</title>
+	<style>
+		#output {
+			border: solid 1px #000;
+		}
+	</style>
+
+
+
+
+</head>
+<body background="globalchat.jpg">
+	
+
+
+
+
+
+<header align="center" style="color:#FFDD4D" style="background-color:#FFFFFF"><b>CHAT</b></header>
+	 <hr>
+	<div id="output" align="center" style="color:#FFFFFF">
+	  
+	</div>
+    <hr>
+	<div align="center">
+	<form id="form" >
+		<input type="text" id="message" >
+	  <button type="submit" style="align-content:center">Send</button>
+	</form>
+	</div>
+	<hr>
+<div>
+<p></p>
+<p></p>
+<p>&nbsp;</p>
+</div>
+	<script>
+	
+		var inputBox = document.getElementById("message");
+		var output = document.getElementById("output");
+		var form = document.getElementById("form");
+ 
+		try {
+ 
+			var host = "ws://echo.websocket.org";
+			console.log("Host:", host);
+			
+			var s = new WebSocket('ws:localhost:999');
+			
+			s.onopen = function (e) {
+				console.log("Socket opened.");
+			};
+			
+			s.onclose = function (e) {
+				console.log("Socket closed.");
+			};
+			
+			s.onmessage = function (e) {
+				console.log("Socket message:", e.data);
+				var p = document.createElement("p");
+				p.innerHTML = e.data;
+				output.appendChild(p);
+			};
+			
+			s.onerror = function (e) {
+				console.log("Socket error:", e);
+			};
+			
+		} catch (ex) {
+			console.log("Socket exception:", ex);
+		}
+ 
+		form.addEventListener("submit", function (e) {
+			e.preventDefault();
+			s.send(inputBox.value);
+			inputBox.value = "";
+		}, false)
+ 
+	</script>
+
+
+
+ 
+</body>
+</html>
